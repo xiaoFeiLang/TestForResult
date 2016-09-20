@@ -28,43 +28,43 @@
     NSArray *allNumbers = [NSArray arrayWithObjects:@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19",@"20",@"21",@"22",@"23",@"24",@"25",@"26",@"27",nil];
     
     NSArray *betArray = [NSArray array];
-       NSMutableArray *zhongArray = [NSMutableArray array];
+    NSMutableArray *zhongArray = [NSMutableArray array];
     
-    betArray = [self getBetNumber:3];
+    betArray = [self getBetNumber:36];
     for (int i = 0; i < betArray.count; i++) {
         if ([betArray[i]  isEqual: @1]) {
             [zhongArray addObject:allNumbers[i]];
         }
     }
     DisplayModel *mo = [[DisplayModel alloc]init];
-
+    
     NSMutableArray *moneyCountArray = [NSMutableArray array];
     NSString *str;
     int j = 0;                      // 盈利次数
     int n = 0;
     ItemList *item1;                //下一把开奖信息
     static  NSInteger moneyCount;   //总盈利
-   static NSInteger perInputMoney;        //每把投入
+    static NSInteger perInputMoney;        //每把投入
     perInputMoney = PERINPU_MONEY;
     static NSInteger count;         //符合条件次数
     
-    for(int i = 2000; i < 6067; i++){  //mo.itemList.count
+    for(int i = 0; i < 6067; i++){  //mo.itemList.count
         ItemList *item = mo.itemList[i];
-//        if(i < TEST_COUNT - 1){
-//            item1 = mo.itemList[i+1];
-//            jcjg = mo.itemList[i+1].jcjg2;
-//        }
+        //        if(i < TEST_COUNT - 1){
+        //            item1 = mo.itemList[i+1];
+        //            jcjg = mo.itemList[i+1].jcjg2;
+        //        }
         if ( [zhongArray containsObject:item.jcjg2]) {
             str =  @"中";
-            moneyCount += perInputMoney * 1/3;
+            moneyCount += perInputMoney * 0.8;
             [moneyCountArray addObject:[NSNumber numberWithInteger:moneyCount]];
             
             perInputMoney = perInputMoney * 2;
             
             count ++;
-            if (count == 1) {
+            if (count == 2) {
                 perInputMoney = PERINPU_MONEY;
-//                i = i+1;
+                i = i+1;
                 count = 0;
             }
             
@@ -76,15 +76,15 @@
             [moneyCountArray addObject:[NSNumber numberWithInteger:moneyCount]];
             perInputMoney = PERINPU_MONEY;
             count = 0;
-//            i = i+5;
+            i = i+5;
             n++;
         }
-
+        
         NSLog(@"期号:%@ 开奖号码:%@%@  --- 本次%@  下把投入%ld %ld",item.num,item.jcjg1,item.jcjg2,str,perInputMoney,moneyCount);
     }
     NSLog(@"中%d,投注%d",j,n+j);
     NSLog(@"总%ld",mo.itemList.count);
-//    开奖结果排序
+    //    开奖结果排序
     [moneyCountArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         int aNum = [obj1 intValue];
         int bNum = [obj2 intValue];
@@ -99,7 +99,7 @@
             return NSOrderedSame;
         }
     }];
-     
+    
     NSLog(@"%ld~%ld", [[moneyCountArray firstObject] integerValue], [[moneyCountArray lastObject] integerValue]);
 }
 
@@ -278,7 +278,10 @@
         case 36:{
             return @[@0,@0,@0,@0,@0,@0,@0,@0,@0,@0,@1,@1,@1,@1,@1,@1,@1,@1,@0,@0,@0,@0,@0,@0,@0,@0,@0,@0];
         }break;
-            
+            //     6-21
+        case 37:{
+            return @[@0,@0,@0,@0,@0,@0,@1,@1,@1,@1,@1,@1,@1,@1,@1,@1,@1,@1,@1,@1,@1,@1,@0,@0,@0,@0,@0,@0];
+        }break;
         default:
             break;
     }
